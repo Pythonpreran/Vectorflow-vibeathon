@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>VIBEATHON 2026 – Enter The Vibe</title>
+  <meta name="description"
+    content="Vibeathon is an immersive 8 hour hackathon where participants attend a short workshop, design innovative ideas, and build solutions using modern development tools and vibe coding platforms." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <!-- BOOT -->
+  <div id="boot-screen">
+    <div class="boot-content">
+      <div class="boot-terminal">
+        <div class="boot-header"><span class="bd red"></span><span class="bd yellow"></span><span
+            class="bd green"></span><span class="bt-title">VIBEATHON_SYS v6.6.6</span></div>
+        <div class="boot-body" id="boot-body"></div>
+      </div>
+      <div class="boot-bar-wrap">
+        <div class="boot-bar" id="boot-bar"></div>
+      </div>
+    </div>
+    <div class="scanlines-overlay"></div>
+  </div>
+
+  <!-- AMBIENT LAYERS -->
+  <canvas id="particle-canvas"></canvas>
+  <div class="city-side city-side-left"></div>
+  <div class="city-side city-side-right"></div>
+  <div id="three-bg"></div>
+  <div id="fog-layer">
+    <div class="fog f1"></div>
+    <div class="fog f2"></div>
+  </div>
+  <div id="lightning-flash"></div>
+  <canvas id="cursor-trail-canvas"></canvas>
+  <div id="cursor-glow"></div>
+  <div id="cursor-dot"></div>
+
+  <!-- VIBE SCORE HUD -->
+  <div id="vibe-hud">
+    <div class="vibe-label">VIBE SCORE</div>
+    <div class="vibe-score" id="vibe-score">0</div>
+    <div class="vibe-bar-wrap">
+      <div class="vibe-bar" id="vibe-bar"></div>
+    </div>
+  </div>
+
+  <!-- ACHIEVEMENT POPUP -->
+  <div id="achievement" class="ach-hidden">
+    <div class="ach-icon" id="ach-icon">🏆</div>
+    <div class="ach-text">
+      <div class="ach-title" id="ach-title">ACHIEVEMENT</div>
+      <div class="ach-desc" id="ach-desc">You did something cool!</div>
+    </div>
+  </div>
+
+  <!-- COLLECTIBLE ORBS (injected by JS) -->
+  <div id="orbs-container"></div>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <div class="nav-logo" id="nav-logo"><span class="lb">&lt;</span><span class="lt">VIBE</span><span
+          class="la">ATHON</span><span class="lb">/&gt;</span></div>
+      <div class="nav-links" id="nav-links">
+        <a href="#about" class="nl">ABOUT</a><a href="#events" class="nl">TRACKS</a><a href="#timeline"
+          class="nl">TIMELINE</a><a href="#speakers" class="nl">SPEAKERS</a><a href="#prizes" class="nl">PRIZES</a><a
+          href="#faq" class="nl">FAQ</a><a href="#contact" class="nl">CONTACT</a><a href="#register" class="nl nav-cta">REGISTER</a>
+      </div>
+      <div class="nav-ham" id="nav-ham"><span></span><span></span><span></span></div>
+    </div>
+    <div class="mob-menu" id="mob-menu"><a href="#about" class="ml">ABOUT</a><a href="#events" class="ml">TRACKS</a><a
+        href="#timeline" class="ml">TIMELINE</a><a href="#speakers" class="ml">SPEAKERS</a><a href="#prizes"
+        class="ml">PRIZES</a><a href="#faq" class="ml">FAQ</a><a href="#contact" class="ml">CONTACT</a><a href="#register" class="ml">REGISTER</a></div>
+  </nav>
+
+  <main id="main-content">
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-env">
+        <div class="city-skyline"></div>
+        <div class="hover-cars">
+          <div class="hcar hc1"></div>
+          <div class="hcar hc2"></div>
+          <div class="hcar hc3"></div>
+        </div>
+        <div class="sky-drones">
+          <div class="drone d1">◆</div>
+          <div class="drone d2">◆</div>
+          <div class="drone d3">◆</div>
+          <div class="drone d4">◆</div>
+        </div>
+        <div class="beams">
+          <div class="beam b1"></div>
+          <div class="beam b2"></div>
+          <div class="beam b3"></div>
+          <div class="beam b4"></div>
+          <div class="beam b5"></div>
+        </div>
+        <div class="billboards">
+          <div class="bb bb1">HACK THE<br>PLANET</div>
+          <div class="bb bb2">NEONTECH<br>SYSTEMS</div>
+          <div class="bb bb3">YEAR<br>2026</div>
+        </div>
+      </div>
+      <div class="hero-grid"></div>
+      <div class="hero-scan"></div>
+      <div class="hero-vig"></div>
+      <div class="hero-content" id="hero-content">
+        <div class="hero-badge holo-flicker">[ SYSTEM ONLINE // YEAR 2026 ]</div>
+        <h1 class="glitch" id="glitch-title" data-text="VIBEATHON">VIBEATHON</h1>
+        <p class="hero-sub holo-flicker">AN IMMERSIVE 8 HOUR HACKATHON</p>
+        <p class="hero-sub holo-flicker"
+          style="font-size: 0.9rem; margin-top: 1.5rem; color: #00f0ff; letter-spacing: 1px;">ORGANIZED BY VECTORFLOW
+          CLUB OF VVCE MYSURU</p>
+        <div class="hero-stats">
+          <div class="stat"><span class="sv pulse-glow">8H</span><span class="sl">NON-STOP</span></div>
+          <div class="stat-div"></div>
+          <div class="stat"><span class="sv pulse-glow">₹54K+</span><span class="sl">PRIZES</span></div>
+          <div class="stat-div"></div>
+          <div class="stat"><span class="sv pulse-glow">₹400</span><span class="sl">ENTRY FEE</span></div>
+        </div>
+        <div class="countdown">
+          <div style="font-size: 1.5rem; color: #ff2d95; text-shadow: 0 0 10px #ff2d95; text-align: center;">
+            27TH APRIL 2026<br><span style="font-size: 1.1rem; color: #00f0ff; text-shadow: none;">SAVE THE DATE</span>
+          </div>
+        </div>
+        <div style="margin-top: 1.2rem; text-align: center; padding: 0.8rem 1.5rem; border: 1px solid rgba(255,45,149,0.4); border-radius: 8px; background: rgba(255,45,149,0.08);">
+          <p style="font-size: 1.1rem; color: #ff2d95; font-family: var(--hd); letter-spacing: 2px; text-shadow: 0 0 8px rgba(255,45,149,0.5); margin: 0;">
+            LAST DATE TO REGISTER: <strong style="color: #fff; font-size: 1.25rem;">21ST APRIL 2026</strong>
+          </p>
+          <p style="font-size: 0.95rem; color: #00f0ff; font-family: var(--mn); letter-spacing: 1.5px; margin: 0.5rem 0 0 0; text-shadow: 0 0 6px rgba(0,240,255,0.4);">
+             TOP 50 TEAMS WILL BE SHORTLISTED 
+          </p>
+        </div>
+        <a href="#about" class="cta-btn neon-pulse"><span class="cta-bg"></span><span class="cta-txt">ENTER THE
+            VIBE</span><span class="cta-arr">⟩</span></a>
+      </div>
+    </section>
+
+    <!-- SECTION PORTAL DIVIDER -->
+    <div class="portal-divider">
+      <div class="portal-line"></div>
+      <div class="portal-diamond">◇</div>
+      <div class="portal-line"></div>
+    </div>
+
+    <!-- ABOUT -->
+    <section id="about" class="sec">
+      <div class="sec-inner">
+        <div class="sec-head"><span class="si">01</span>
+          <h2 class="st holo-flicker" data-text="ABOUT THE EVENT">ABOUT THE EVENT</h2>
+          <div class="sl-line"></div>
+        </div>
+        <div class="about-cards">
+          <div class="hcard float-slow" data-tilt>
+            <div class="hcard-shine"></div>
+            <div class="hcard-body">
+              <div class="hcard-icon breath-glow">⚡</div>
+              <h3 class="holo-flicker">THE VIBE</h3>
+              <p>Vibeathon is an immersive 8 hour hackathon. Design innovative ideas and build solutions using modern
+                development tools.</p>
+            </div>
+          </div>
+          <div class="hcard float-slow" data-tilt>
+            <div class="hcard-shine"></div>
+            <div class="hcard-body">
+              <div class="hcard-icon breath-glow">💎</div>
+              <h3 class="holo-flicker">AI CREDITS</h3>
+              <p>In collaboration with Devnovate & HackWithIndia, every participant gets $10 worth of AI credits for
+                Lovable & v0!</p>
+            </div>
+          </div>
+          <div class="hcard float-slow" data-tilt>
+            <div class="hcard-shine"></div>
+            <div class="hcard-body">
+              <div class="hcard-icon breath-glow">🔥</div>
+              <h3 class="holo-flicker">THE EVENT</h3>
+              <p>Organized by Vectorflow Club of VVCE Mysuru. 8 hours of fast-paced hacking, pitching, and amazing
+                prizes.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="portal-divider">
+      <div class="portal-line"></div>
+      <div class="portal-diamond">◇</div>
+      <div class="portal-line"></div>
+    </div>
+
+    <!-- EVENTS -->
+    <section id="events" class="sec">
+      <div class="sec-inner">
+        <div class="sec-head"><span class="si">02</span>
+          <h2 class="st holo-flicker" data-text="EVENT TRACKS">EVENT TRACKS</h2>
+          <div class="sl-line"></div>
+          <p style="color: #00f0ff; font-weight: 500; font-family: var(--mn); letter-spacing: 1px; margin-top: 1rem; font-size: 1.1rem;">
+            MYSTERY TRACKS WILL BE REVEALED JUST BEFORE THE HACKATHON STARTS</p>
+        </div>
+        <div class="tracks-grid" style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+          <div class="tcard float-slow" data-tilt data-clr="cyan" style="width: 100%; max-width: 400px;">
+            <div class="tcard-bg"></div>
+            <div class="tcard-glow"></div>
+            <div class="tcard-scan"></div>
+            <div class="tcard-body">
+              <div class="tcard-icon spin-slow">🔒</div>
+              <h3 class="holo-flicker">MYSTERY TRACK 1</h3>
+              <p>The first track is currently classified. Stand by for further system updates.</p><span
+                class="tcard-tag neon-pulse">STANDBY</span>
+            </div>
+          </div>
+          <div class="tcard float-slow" data-tilt data-clr="cyan" style="width: 100%; max-width: 400px;">
+            <div class="tcard-bg"></div>
+            <div class="tcard-glow"></div>
+            <div class="tcard-scan"></div>
+            <div class="tcard-body">
+              <div class="tcard-icon spin-slow">🔒</div>
+              <h3 class="holo-flicker">MYSTERY TRACK 2</h3>
+              <p>The second track is currently classified. Stand by for further system updates.</p><span
+                class="tcard-tag neon-pulse">STANDBY</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="portal-divider">
+      <div class="portal-line"></div>
+      <div class="portal-diamond">◇</div>
+      <div class="portal-line"></div>
+    </div>
+
+    <!-- TIMELINE -->
+    <section id="timeline" class="sec">
+      <div class="sec-inner">
+        <div class="sec-head"><span class="si">03</span>
+          <h2 class="st holo-flicker" data-text="EVENT TIMELINE">EVENT TIMELINE</h2>
+          <div class="sl-line"></div>
+        </div>
+        <div class="tl-wrap">
+          <div class="tl-line-bg"></div>
+          <div class="tl-line-fill" id="tl-fill"></div>
+          <div class="tl-n left">
+            <div class="tl-dot breath-glow"></div>
+            <div class="tl-card"><span class="tl-t">8:30 AM to 9:00 AM</span>
+              <h3>REGISTRATION</h3>
+              <p>Check-in and get your badges.</p>
+            </div>
+          </div>
+          <div class="tl-n right">
+            <div class="tl-dot breath-glow"></div>
+            <div class="tl-card"><span class="tl-t">9:00 AM to 9:30 AM</span>
+              <h3>INAUGURATION</h3>
+              <p>Welcome to Vibeathon.</p>
+            </div>
+          </div>
+          <div class="tl-n left">
+            <div class="tl-dot breath-glow"></div>
+            <div class="tl-card"><span class="tl-t">9:30 AM to 10:30 AM</span>
+              <h3>WORKSHOP</h3>
+              <p>Learn vibe coding and tools.</p>
+            </div>
+          </div>
+          <div class="tl-n right">
+            <div class="tl-dot breath-glow"></div>
+            <div class="tl-card"><span class="tl-t">10:30 AM to 11:30 AM</span>
+              <h3>DESIGN PHASE</h3>
+              <p>Ideate and structuralize.</p>
+            </div>
+          </div>
+          <div class="tl-n left">
+            <div class="tl-dot breath-glow"></div>
+            <div class="tl-card"><span class="tl-t">11:30 AM to 12:30 PM</span>
+              <h3>EVALUATION</h3>
+              <p>Teams evaluated. Completed teams enjoy snacks.</p>
+            </div>
+          </div>
+          <div class="tl-n right">
+            <div class="tl-dot breath-glow"></div>
+            <div class="tl-card"><span class="tl-t">12:30 PM to 1:30 PM</span>
+              <h3>BUILD PHASE</h3>
+              <p>Start your hacking engines.</p>
+            </div>
+          </div>
+          <div class="tl-n left">
+            <div class="tl-dot breath-glow"></div>
+            <div class="tl-card"><span class="tl-t">1:30 PM to 2:30 PM</span>
+              <h3>LUNCH BREAK</h3>
+              <p>Refuel and re-energize.</p>
+            </div>
+          </div>
+          <div class="tl-n right">
+            <div class="tl-dot breath-glow"></div>
+            <div class="tl-card"><span class="tl-t">2:30 PM to 3:30 PM</span>
+              <h3>BUILD PHASE 2</h3>
+              <p>Every team starts at the same time. Finalize and polish.</p>
+            </div>
+          </div>
+          <div class="tl-n left">
+            <div class="tl-dot breath-glow"></div>
+            <div class="tl-card"><span class="tl-t">3:30 PM to 4:30 PM</span>
+              <h3>EVALUATION 2</h3>
+              <p>Final round of evaluation.</p>
+            </div>
+          </div>
+          <div class="tl-n right">
+            <div class="tl-dot breath-glow"></div>
+            <div class="tl-card"><span class="tl-t">4:50 PM to 5:10 PM</span>
+              <h3>FINALE PITCH</h3>
+              <p>Top teams present to the judges.</p>
+            </div>
+          </div>
+          <div class="tl-n left">
+            <div class="tl-dot breath-glow"></div>
+            <div class="tl-card"><span class="tl-t">5:20 PM</span>
+              <h3>AWARDS CEREMONY</h3>
+              <p>Winners announced and closing remarks.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="portal-divider">
+      <div class="portal-line"></div>
+      <div class="portal-diamond">◇</div>
+      <div class="portal-line"></div>
+    </div>
+
+    <!-- SPEAKERS -->
+    <section id="speakers" class="sec">
+      <div class="sec-inner">
+        <div class="sec-head"><span class="si">04</span>
+          <h2 class="st holo-flicker" data-text="SPEAKERS & JUDGES">SPEAKERS & JUDGES</h2>
+          <div class="sl-line"></div>
+        </div>
+        <div class="spk-grid" style="display: flex; justify-content: center;">
+          <div class="spk float-slow" data-tilt style="width: 100%; max-width: 500px;">
+            <div class="spk-av"><span>🎙️</span>
+              <div class="spk-scanline"></div>
+            </div>
+            <h3 class="holo-flicker">DETAILS COMING SOON</h3>
+            <p>Speakers and Judges</p><span class="spk-r">STANDBY</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="portal-divider">
+      <div class="portal-line"></div>
+      <div class="portal-diamond">◇</div>
+      <div class="portal-line"></div>
+    </div>
+
+    <!-- PRIZES -->
+    <section id="prizes" class="sec">
+      <div class="sec-inner">
+        <div class="sec-head"><span class="si">05</span>
+          <h2 class="st holo-flicker" data-text="PRIZES & REWARDS">PRIZES & REWARDS</h2>
+          <div class="sl-line"></div>
+        </div>
+        <h3 class="holo-flicker" style="text-align:center;color:#00f0ff;font-family:var(--hd);font-size:1.4rem;margin-bottom:1.5rem;letter-spacing:2px;">🔒 MYSTERY TRACK 1</h3>
+        <div class="prize-row">
+          <div class="pbox pgold float-slow" data-tilt>
+            <div class="pbox-3d">
+              <div class="pface">
+                <div class="pemoji breath-glow">🏆</div>
+                <h3>FIRST PRIZE</h3>
+                <div class="pamt">₹13,500</div>
+              </div>
+            </div>
+            <div class="pbox-orb"></div>
+          </div>
+          <div class="pbox psilver float-slow" data-tilt>
+            <div class="pbox-3d">
+              <div class="pface">
+                <div class="pemoji breath-glow">🥈</div>
+                <h3>SECOND PRIZE</h3>
+                <div class="pamt">₹9,000</div>
+              </div>
+            </div>
+            <div class="pbox-orb"></div>
+          </div>
+          <div class="pbox pbronze float-slow" data-tilt>
+            <div class="pbox-3d">
+              <div class="pface">
+                <div class="pemoji breath-glow">🥉</div>
+                <h3>THIRD PRIZE</h3>
+                <div class="pamt">₹4,500</div>
+              </div>
+            </div>
+            <div class="pbox-orb"></div>
+          </div>
+        </div>
+
+        <div style="margin-top:3rem;"></div>
+
+        <h3 class="holo-flicker" style="text-align:center;color:#ff2d95;font-family:var(--hd);font-size:1.4rem;margin-bottom:1.5rem;letter-spacing:2px;">🔒 MYSTERY TRACK 2</h3>
+        <div class="prize-row">
+          <div class="pbox pgold float-slow" data-tilt>
+            <div class="pbox-3d">
+              <div class="pface">
+                <div class="pemoji breath-glow">🏆</div>
+                <h3>FIRST PRIZE</h3>
+                <div class="pamt">₹13,500</div>
+              </div>
+            </div>
+            <div class="pbox-orb"></div>
+          </div>
+          <div class="pbox psilver float-slow" data-tilt>
+            <div class="pbox-3d">
+              <div class="pface">
+                <div class="pemoji breath-glow">🥈</div>
+                <h3>SECOND PRIZE</h3>
+                <div class="pamt">₹9,000</div>
+              </div>
+            </div>
+            <div class="pbox-orb"></div>
+          </div>
+          <div class="pbox pbronze float-slow" data-tilt>
+            <div class="pbox-3d">
+              <div class="pface">
+                <div class="pemoji breath-glow">🥉</div>
+                <h3>THIRD PRIZE</h3>
+                <div class="pamt">₹4,500</div>
+              </div>
+            </div>
+            <div class="pbox-orb"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="portal-divider">
+      <div class="portal-line"></div>
+      <div class="portal-diamond">◇</div>
+      <div class="portal-line"></div>
+    </div>
+
+    <!-- SPONSORS -->
+    <section id="sponsors" class="sec sec-full">
+      <div class="sec-inner">
+        <div class="sec-head"><span class="si">06</span>
+          <h2 class="st holo-flicker" data-text="SPONSORS">SPONSORS</h2>
+          <div class="sl-line"></div>
+        </div>
+      </div>
+      <div class="sponsors-grid">
+        <div class="spon-card float-slow" data-tilt>
+          <div class="spon-bg"></div>
+          <p class="spon-label">EVENT PARTNER</p>
+          <div class="spon-img-wrap">
+            <img src="1.png" alt="Devnovate" class="spon-img" />
+          </div>
+        </div>
+        <div class="spon-card float-slow" data-tilt style="animation-delay: 0.5s;">
+          <div class="spon-bg"></div>
+          <p class="spon-label">EVENT PARTNER</p>
+          <div class="spon-img-wrap">
+            <img src="2.png" alt="HackWithIndia" class="spon-img" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="portal-divider">
+      <div class="portal-line"></div>
+      <div class="portal-diamond">◇</div>
+      <div class="portal-line"></div>
+    </div>
+
+
+
+    <!-- REGISTER -->
+    <section id="register" class="sec">
+      <div class="sec-inner">
+        <div class="sec-head"><span class="si">08</span>
+          <h2 class="st holo-flicker" data-text="REGISTER NOW">REGISTER NOW</h2>
+          <div class="sl-line"></div>
+          <p
+            style="color: #00f0ff; font-weight: 500; font-family: var(--mn); letter-spacing: 1px; margin-top: 1rem; font-size: 1.1rem;">
+            REGISTRATION FEE: ₹400 PER TEAM</p>
+        </div>
+        <div class="reg-wrap">
+          <div class="reg-card">
+            <div class="reg-corners">
+              <div class="rc tl"></div>
+              <div class="rc tr"></div>
+              <div class="rc bl"></div>
+              <div class="rc br"></div>
+            </div>
+            <a href="https://devnovate.co/event/vibeathon-2026" target="_blank" rel="noopener noreferrer" id="reg-link" class="reg-btn neon-pulse"
+              style="display: block; text-align: center; text-decoration: none; margin-top: 1rem;">
+              <span class="rb-t">[ REGISTER // DEPLOY ]</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="portal-divider">
+      <div class="portal-line"></div>
+      <div class="portal-diamond">◇</div>
+      <div class="portal-line"></div>
+    </div>
+
+    <!-- FAQ -->
+    <section id="faq" class="sec">
+      <div class="sec-inner">
+        <div class="sec-head"><span class="si">09</span>
+          <h2 class="st holo-flicker" data-text="FAQ">FREQUENTLY ASKED QUESTIONS</h2>
+          <div class="sl-line"></div>
+        </div>
+        <div class="faq-container">
+          <div class="faq-item" data-tilt>
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+              <span class="faq-icon">▸</span>
+              <span>What is Vibeathon?</span>
+              <span class="faq-toggle">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Vibeathon is an immersive <strong>8-hour hackathon</strong> organized by Vectorflow Club of VVCE Mysuru. Participants attend a short workshop, design innovative ideas, and build solutions using modern development tools and vibe coding platforms.</p>
+            </div>
+          </div>
+          <div class="faq-item" data-tilt>
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+              <span class="faq-icon">▸</span>
+              <span>Who can participate?</span>
+              <span class="faq-toggle">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Vibeathon is mainly designed for <strong>innovative minds and beginners</strong>. If you have creative ideas and enthusiasm for building, this is perfect for you — no prior hackathon experience required! Students from <strong>any college</strong> can participate (inter-college teams are allowed).</p>
+            </div>
+          </div>
+          <div class="faq-item" data-tilt>
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+              <span class="faq-icon">▸</span>
+              <span>What is the registration fee?</span>
+              <span class="faq-toggle">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>The registration fee is <strong>₹400 per team</strong>. Please note that <strong>cancellation is not possible after payment</strong> — all sales are final.</p>
+            </div>
+          </div>
+          <div class="faq-item" data-tilt>
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+              <span class="faq-icon">▸</span>
+              <span>Are inter-college teams allowed?</span>
+              <span class="faq-toggle">+</span>
+            </button>
+            <div class="faq-answer">
+              <p><strong>Yes!</strong> Inter-college teams are absolutely welcome. You can form a team with members from different colleges.</p>
+            </div>
+          </div>
+          <div class="faq-item" data-tilt>
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+              <span class="faq-icon">▸</span>
+              <span>Will internet be provided?</span>
+              <span class="faq-toggle">+</span>
+            </button>
+            <div class="faq-answer">
+              <p><strong>Yes!</strong> Wi-Fi and internet access will be provided at the venue for all participants.</p>
+            </div>
+          </div>
+          <div class="faq-item" data-tilt>
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+              <span class="faq-icon">▸</span>
+              <span>Will food and snacks be provided?</span>
+              <span class="faq-toggle">+</span>
+            </button>
+            <div class="faq-answer">
+              <p><strong>Yes!</strong> Food and snacks will be provided to all participants throughout the event. Focus on hacking — we'll keep you fueled!</p>
+            </div>
+          </div>
+          <div class="faq-item" data-tilt>
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+              <span class="faq-icon">▸</span>
+              <span>What are the hackathon tracks?</span>
+              <span class="faq-toggle">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>The tracks are a <strong>mystery!</strong> They will be <strong>revealed on the day of the event</strong> itself, just before the hackathon begins. Come prepared for anything!</p>
+            </div>
+          </div>
+          <div class="faq-item" data-tilt>
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+              <span class="faq-icon">▸</span>
+              <span>How long is the hackathon?</span>
+              <span class="faq-toggle">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Vibeathon is an <strong>8-hour hackathon</strong> — a high-intensity, fast-paced event where you ideate, design, and build your solution in a single day.</p>
+            </div>
+          </div>
+          <div class="faq-item" data-tilt>
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+              <span class="faq-icon">▸</span>
+              <span>Can I cancel after payment?</span>
+              <span class="faq-toggle">+</span>
+            </button>
+            <div class="faq-answer">
+              <p><strong>No.</strong> Cancellation is <strong>not possible after payment</strong>. Please make sure you can attend before registering.</p>
+            </div>
+          </div>
+          <div class="faq-item" data-tilt>
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+              <span class="faq-icon">▸</span>
+              <span>What do participants get?</span>
+              <span class="faq-toggle">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Every participant receives <strong>$10 worth of AI credits</strong> for Lovable & v0 (in collaboration with Devnovate & HackWithIndia), food & snacks, internet access, an amazing hackathon experience, and a chance to win from the <strong>₹54K+ prize pool!</strong></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="portal-divider">
+      <div class="portal-line"></div>
+      <div class="portal-diamond">◇</div>
+      <div class="portal-line"></div>
+    </div>
+
+    <!-- CONTACT US -->
+    <section id="contact" class="sec">
+      <div class="sec-inner">
+        <div class="sec-head"><span class="si">10</span>
+          <h2 class="st holo-flicker" data-text="CONTACT US">CONTACT US</h2>
+          <div class="sl-line"></div>
+        </div>
+        <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; text-align: center;">
+          <div class="tcard float-slow" data-tilt data-clr="cyan" style="width: 100%; max-width: 300px;">
+            <div class="tcard-bg"></div>
+            <div class="tcard-glow"></div>
+            <div class="tcard-scan"></div>
+            <div class="tcard-body">
+              <div class="tcard-icon spin-slow">📞</div>
+              <h3 class="holo-flicker">SHASHANK S</h3>
+              <p style="color: #00f0ff; letter-spacing: 1px; margin-bottom: 1rem;">Tech Lead</p>
+              <p style="font-family: var(--mn); font-size: 1.2rem; color: #fff;">8660462377</p>
+            </div>
+          </div>
+          <div class="tcard float-slow" data-tilt data-clr="cyan" style="width: 100%; max-width: 300px;">
+            <div class="tcard-bg"></div>
+            <div class="tcard-glow"></div>
+            <div class="tcard-scan"></div>
+            <div class="tcard-body">
+              <div class="tcard-icon spin-slow">📞</div>
+              <h3 class="holo-flicker">PRERAN S GOWDA</h3>
+              <p style="color: #00f0ff; letter-spacing: 1px; margin-bottom: 1rem;">Secretary</p>
+              <p style="font-family: var(--mn); font-size: 1.2rem; color: #fff;">9480156432</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="footer-grid"></div>
+    <div class="footer-inner">
+      <div class="footer-logo holo-flicker" data-text="VIBEATHON">VIBEATHON</div>
+      <p class="footer-tag" style="margin-top: 5px; color: #00f0ff; letter-spacing: 1px;">ORGANIZED BY VECTORFLOW CLUB
+        OF VVCE MYSURU</p>
+      <p class="footer-tag">THE FUTURE IS NOW // 2026</p>
+      <div class="footer-links"><a href="https://www.instagram.com/vectorflow_vvce" target="_blank" rel="noopener noreferrer">Instagram</a></div>
+      <p class="footer-copy">© 2026 VIBEATHON // ALL SYSTEMS OPERATIONAL</p>
+    </div>
+  </footer>
+
+  <!-- HACKER TERMINAL -->
+  <div id="hterm" class="hterm-off">
+    <div class="hterm-head"><span>VIBEATHON_TERMINAL v1.0</span><button class="hterm-x" id="hterm-x">✕</button></div>
+    <div class="hterm-body" id="hterm-body">
+      <div class="htl sys">Welcome. Type <span class="hl">help</span> for commands.</div>
+    </div>
+    <div class="hterm-in"><span class="hterm-p">vibeathon&gt;</span><input type="text" id="hterm-input"
+        autocomplete="off" spellcheck="false" /></div>
+  </div>
+
+  <!-- EASTER EGG -->
+  <div id="easter-egg" style="display:none">
+    <div class="ee-box">
+      <pre class="ee-ascii">
+██╗   ██╗██╗██████╗ ███████╗ █████╗ ████████╗██╗  ██╗ ██████╗ ███╗   ██╗
+██║   ██║██║██╔══██╗██╔════╝██╔══██╗╚══██╔══╝██║  ██║██╔═══██╗████╗  ██║
+██║   ██║██║██████╔╝█████╗  ███████║   ██║   ███████║██║   ██║██╔██╗ ██║
+╚██╗ ██╔╝██║██╔══██╗██╔══╝  ██╔══██║   ██║   ██╔══██║██║   ██║██║╚██╗██║
+ ╚████╔╝ ██║██████╔╝███████╗██║  ██║   ██║   ██║  ██║╚██████╔╝██║ ╚████║
+  ╚═══╝  ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝</pre>
+      <p class="ee-msg">🎉 YOU CRACKED THE SYSTEM! 🎉</p>
+      <p class="ee-code">SECRET CODE: <strong>CYBER-VIBE-2026</strong></p>
+      <p>Use this in registration!</p><button class="ee-close"
+        onclick="document.getElementById('easter-egg').style.display='none'">[ CLOSE ]</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
