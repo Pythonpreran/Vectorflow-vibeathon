@@ -347,4 +347,52 @@ a{color:var(--b);text-decoration:none;cursor:none}button,input,select{cursor:non
 .ee-close{margin-top:1.2rem;padding:.4rem 1.2rem;background:none;border:1px solid var(--b);color:var(--b);font-family:var(--mn);cursor:pointer;transition:.3s}
 .ee-close:hover{background:var(--b);color:var(--bg)}
 
-@media(max-width:480px){.sec{padding:3.5rem 1rem}.reg-card{padding:1.6rem 1.2rem}.cd-b{min-width:45px;padding:.3rem .4rem}}
+/* ═══ MOBILE RESPONSIVENESS ═══ */
+@media(max-width:768px){
+  /* Hide neon collectible orbs — they float on top of content and are not tap-friendly */
+  .orb{display:none!important}
+  /* Hide Three.js neon particle cloud (the high-color neon dots) — looks good on desktop, blocks/distorts mobile */
+  #three-bg{display:none!important}
+  /* Hide cursor effects — irrelevant on touchscreens */
+  #cursor-trail-canvas{display:none!important}
+  #cursor-glow{display:none!important}
+  #cursor-dot{display:none!important}
+  /* Hide neon city side silhouettes that crowd small screens */
+  .city-side{display:none!important}
+  /* Hide flying light beams that span across hero and overlap text */
+  .beams{display:none!important}
+  /* Hide the animated drones in the hero */
+  .sky-drones{display:none!important}
+  /* Hide neon billboard overlays */
+  .billboards{display:none!important}
+  /* Hide vibe score HUD — takes up corner space on small screens */
+  #vibe-hud{display:none!important}
+  /* Fix hero content sizing */
+  .hero-content{padding:1.2rem 0.8rem;width:100%;max-width:100%}
+  hero-stats{flex-wrap:wrap;gap:0.8rem}
+  /* Make prize boxes single column */
+  .prize-row{grid-template-columns:1fr;max-width:320px;margin-left:auto;margin-right:auto}
+  /* General section padding on mobile */
+  .sec{padding:4rem 1.2rem}
+  /* Prevent achievement toast from going off screen */
+  #achievement{width:88vw;padding:12px 16px;bottom:16px}
+  /* Fix easter egg ASCII art overflow */
+  .ee-ascii{font-size:clamp(.12rem,.35vw,.28rem)}
+  /* Ensure footer links wrap properly */
+  .footer-links{flex-wrap:wrap;gap:.8rem}
+}
+@media(max-width:480px){
+  .sec{padding:3.5rem 1rem}
+  .reg-card{padding:1.6rem 1.2rem}
+  .cd-b{min-width:45px;padding:.3rem .4rem}
+  /* Shrink VIBEATHON title so it fits on very small screens */
+  .glitch{font-size:clamp(2.8rem,18vw,5rem)}
+  /* Remove dividers between stats on small phones, stack naturally */
+  .hero-stats .stat-div{display:none}
+  .hero-stats{gap:1.2rem;flex-wrap:wrap;justify-content:center}
+  .hero-stats .sv{font-size:clamp(1rem,5vw,1.4rem)}
+  /* Single-column about cards */
+  .about-cards{grid-template-columns:1fr}
+  /* Ensure WhatsApp / hero buttons don't overflow */
+  .cta-btn{font-size:.78rem;padding:.75rem 1.5rem;letter-spacing:2px}
+}
