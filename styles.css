@@ -1,7 +1,7 @@
 /* VIBEATHON Living Cyberpunk World — Styles */
 :root{--b:#00f0ff;--p:#ff2d95;--pu:#b026ff;--g:#39ff14;--y:#ffe600;--bg:#0a0a12;--card:rgba(15,15,30,.7);--glass:rgba(20,20,50,.45);--gb:rgba(0,240,255,.15);--txt:#e0e0ff;--dim:#8888aa;--hd:'Orbitron',sans-serif;--bd:'Rajdhani',sans-serif;--mn:'Share Tech Mono',monospace}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:var(--b) var(--bg)}
+html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:var(--b) var(--bg);overflow-x:hidden}
 html::-webkit-scrollbar{width:5px}html::-webkit-scrollbar-thumb{background:var(--b)}html::-webkit-scrollbar-track{background:var(--bg)}
 body{font-family:var(--bd);background:var(--bg);color:var(--txt);overflow-x:hidden;cursor:none;line-height:1.6;font-size:16px}
 a{color:var(--b);text-decoration:none;cursor:none}button,input,select{cursor:none}
@@ -32,6 +32,7 @@ a{color:var(--b);text-decoration:none;cursor:none}button,input,select{cursor:non
 @keyframes lightning{0%,100%{opacity:0}1%{opacity:.8}2%{opacity:0}3%{opacity:.4}4%{opacity:0}}
 @keyframes orb-float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-10px) scale(1.1)}}
 @keyframes ach-in{0%{opacity:0;transform:translateX(-50%) translateY(30px) scale(.9)}100%{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}}
+@keyframes barPulse{0%,100%{opacity:.8;box-shadow:0 0 8px currentColor}50%{opacity:1;box-shadow:0 0 18px currentColor}}
 
 .float-slow{animation:float-y 4s ease-in-out infinite}.float-slow.d1{animation-delay:.7s}.float-slow.d2{animation-delay:1.4s}
 .breath-glow{animation:breath 3s ease-in-out infinite}
@@ -112,7 +113,7 @@ a{color:var(--b);text-decoration:none;cursor:none}button,input,select{cursor:non
 @media(max-width:768px){.nav-links{display:none}.nav-ham{display:flex}#vibe-hud{top:60px;right:10px;padding:8px 10px;min-width:80px}.vibe-score{font-size:1.2rem}}
 
 /* ═══ HERO ═══ */
-#hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(180deg,#06061a,#0a0a1a 50%,#0f0a22)}
+#hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(180deg,#06061a,#0a0a1a 50%,#0f0a22);width:100%}
 .hero-scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,240,255,.012) 2px,rgba(0,240,255,.012) 4px);pointer-events:none;z-index:4}
 .hero-vig{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,.6));pointer-events:none;z-index:4}
 .hero-grid{position:absolute;bottom:0;left:-50%;width:200%;height:45%;background:linear-gradient(rgba(0,240,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,240,255,.05) 1px,transparent 1px);background-size:50px 50px;transform:perspective(500px) rotateX(65deg);transform-origin:bottom;z-index:1;animation:grid-scroll 3s linear infinite}
@@ -148,9 +149,9 @@ a{color:var(--b);text-decoration:none;cursor:none}button,input,select{cursor:non
 .bb3{top:26%;left:52%;color:var(--pu);border-color:rgba(176,38,255,.25);animation-delay:2.4s}
 
 /* Hero Content */
-.hero-content{position:relative;z-index:5;text-align:center;padding:2rem}
+.hero-content{position:relative;z-index:5;text-align:center;padding:2rem;width:100%;max-width:100%;overflow:hidden;box-sizing:border-box}
 .hero-badge{font-family:var(--mn);font-size:clamp(.6rem,1.3vw,.78rem);color:var(--b);letter-spacing:5px;margin-bottom:1rem;opacity:.8}
-.glitch{font-family:var(--hd);font-size:clamp(3.5rem,12vw,9rem);font-weight:900;color:#fff;position:relative;text-shadow:0 0 10px rgba(0,240,255,.5),0 0 40px rgba(0,240,255,.2),0 0 80px rgba(0,240,255,.1);animation:glitch-skew 8s infinite linear alternate-reverse;line-height:1}
+.glitch{font-family:var(--hd);font-size:clamp(2.5rem,10vw,9rem);font-weight:900;color:#fff;position:relative;text-shadow:0 0 10px rgba(0,240,255,.5),0 0 40px rgba(0,240,255,.2),0 0 80px rgba(0,240,255,.1);animation:glitch-skew 8s infinite linear alternate-reverse;line-height:1;overflow-wrap:break-word;word-break:break-word;max-width:100%}
 .glitch::before,.glitch::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%}
 .glitch::before{color:var(--p);animation:glitch-a 6s infinite linear alternate-reverse;clip-path:polygon(0 0,100% 0,100% 35%,0 35%);transform:translate(-1px,-1px);opacity:.5}
 .glitch::after{color:var(--b);animation:glitch-b 5s infinite linear alternate-reverse;clip-path:polygon(0 65%,100% 65%,100% 100%,0 100%);transform:translate(1px,1px);opacity:.5}
@@ -368,8 +369,11 @@ a{color:var(--b);text-decoration:none;cursor:none}button,input,select{cursor:non
   /* Hide vibe score HUD — takes up corner space on small screens */
   #vibe-hud{display:none!important}
   /* Fix hero content sizing */
-  .hero-content{padding:1.2rem 0.8rem;width:100%;max-width:100%}
-  hero-stats{flex-wrap:wrap;gap:0.8rem}
+  .hero-content{padding:1.2rem 0.8rem;width:100%;max-width:100vw;overflow:hidden;box-sizing:border-box}
+  .glitch{font-size:clamp(2.2rem,10vw,5rem)!important;max-width:100%;display:block;overflow:hidden}
+  .hero-stats{flex-wrap:wrap;gap:0.8rem}
+  .hero-sub{font-size:clamp(.55rem,2.5vw,.85rem)!important;letter-spacing:2px!important}
+  .hero-badge{letter-spacing:2px!important;font-size:clamp(.55rem,2.5vw,.75rem)!important}
   /* Make prize boxes single column */
   .prize-row{grid-template-columns:1fr;max-width:320px;margin-left:auto;margin-right:auto}
   /* General section padding on mobile */
@@ -380,13 +384,17 @@ a{color:var(--b);text-decoration:none;cursor:none}button,input,select{cursor:non
   .ee-ascii{font-size:clamp(.12rem,.35vw,.28rem)}
   /* Ensure footer links wrap properly */
   .footer-links{flex-wrap:wrap;gap:.8rem}
+  /* Fix organized by text wrapping */
+  .hero-content p{max-width:100%;word-wrap:break-word}
+  /* Fix registration deadline box */
+  .countdown{flex-direction:column;gap:0.3rem}
 }
 @media(max-width:480px){
   .sec{padding:3.5rem 1rem}
   .reg-card{padding:1.6rem 1.2rem}
   .cd-b{min-width:45px;padding:.3rem .4rem}
   /* Shrink VIBEATHON title so it fits on very small screens */
-  .glitch{font-size:clamp(2.8rem,18vw,5rem)}
+  .glitch{font-size:clamp(2rem,11vw,3.5rem)!important}
   /* Remove dividers between stats on small phones, stack naturally */
   .hero-stats .stat-div{display:none}
   .hero-stats{gap:1.2rem;flex-wrap:wrap;justify-content:center}
@@ -395,4 +403,11 @@ a{color:var(--b);text-decoration:none;cursor:none}button,input,select{cursor:non
   .about-cards{grid-template-columns:1fr}
   /* Ensure WhatsApp / hero buttons don't overflow */
   .cta-btn{font-size:.78rem;padding:.75rem 1.5rem;letter-spacing:2px}
+  /* Fix hero sub text */
+  .hero-sub{font-size:clamp(.5rem,2.5vw,.78rem)!important;letter-spacing:1px!important}
+  .hero-badge{letter-spacing:1px!important;font-size:clamp(.5rem,2.2vw,.7rem)!important}
+  /* Fix section headings on small phones */
+  .st{font-size:clamp(1.2rem,5vw,2rem)}
+  /* Fix organized by text */
+  .hero-content p[style]{font-size:0.75rem!important}
 }
