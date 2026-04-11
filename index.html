@@ -669,42 +669,24 @@
           <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#00f0ff,transparent);"></div>
           <!-- label -->
           <p style="font-family:var(--mn);font-size:0.55rem;color:#00f0ff;letter-spacing:4px;margin-bottom:0.8rem;text-shadow:0 0 8px rgba(0,240,255,0.5);">[ PAGE VISITORS ]</p>
-          <!-- counter display: the script injects the counter image here -->
-          <div id="sfcqnlgntswg7gkpxarnbwfu3p9nu5cfdxj" class="vc-counter-display"></div>
-          <script type="text/javascript" src="https://counter1.optistats.ovh/private/counter.js?c=qnlgntswg7gkpxarnbwfu3p9nu5cfdxj&down=async" async></script>
-          <noscript><a href="https://www.freecounterstat.com" title="web page hit counter"><img src="https://counter1.optistats.ovh/private/freecounterstat.php?c=qnlgntswg7gkpxarnbwfu3p9nu5cfdxj" border="0" title="web page hit counter" alt="web page hit counter"></a></noscript>
+          <!-- counter: direct img embed, works on GitHub Pages without JS -->
+          <div style="display:flex;justify-content:center;align-items:center;min-height:70px;padding:0.8rem 1rem;background:rgba(0,0,20,0.7);border:1px solid rgba(0,240,255,0.3);border-radius:8px;box-shadow:inset 0 0 15px rgba(0,240,255,0.08),0 0 12px rgba(0,240,255,0.1);">
+            <a href="https://www.freecounterstat.com" title="web page hit counter" target="_blank" rel="noopener noreferrer">
+              <img
+                src="https://counter1.optistats.ovh/private/freecounterstat.php?c=qnlgntswg7gkpxarnbwfu3p9nu5cfdxj"
+                border="0"
+                title="web page hit counter"
+                alt="web page hit counter"
+                style="height:55px;image-rendering:auto;filter:drop-shadow(0 0 6px rgba(0,240,255,0.6)) drop-shadow(0 0 16px rgba(0,240,255,0.3));"
+              >
+            </a>
+          </div>
           <!-- sub label -->
           <p style="font-family:var(--mn);font-size:0.5rem;color:#8888aa;letter-spacing:3px;margin-top:0.75rem;">UNIQUE VISITORS</p>
           <!-- bottom accent line -->
           <div style="position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#ff2d95,transparent);"></div>
         </div>
       </div>
-
-      <style>
-        .vc-counter-display {
-          display:flex;justify-content:center;align-items:center;
-          min-height:70px;
-          padding:0.8rem 1rem;
-          background:rgba(0,0,20,0.7);
-          border:1px solid rgba(0,240,255,0.3);
-          border-radius:8px;
-          box-shadow:inset 0 0 15px rgba(0,240,255,0.08),0 0 12px rgba(0,240,255,0.1);
-        }
-        /* Style the counter image injected by the script */
-        .vc-counter-display a {
-          display:inline-flex;align-items:center;justify-content:center;
-          text-decoration:none;
-        }
-        .vc-counter-display img {
-          height:55px;
-          image-rendering:auto;
-          filter:drop-shadow(0 0 6px rgba(0,240,255,0.6)) drop-shadow(0 0 16px rgba(0,240,255,0.3));
-        }
-        /* Hide the 1x1 tracking pixel */
-        .vc-counter-display img[width="1"][height="1"] {
-          display:none!important;
-        }
-      </style>
     </section>
 
     <div class="portal-divider">
