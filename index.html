@@ -674,6 +674,50 @@
             </div>
           </div>
         </div>
+
+        <!-- REGISTRATION CHECKLIST -->
+        <div style="max-width:600px;margin:2.5rem auto 0;background:linear-gradient(135deg,rgba(0,240,255,0.05),rgba(255,45,149,0.04));border:1px solid rgba(0,240,255,0.25);border-radius:14px;padding:2rem 2.2rem;position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00f0ff,#ff2d95,transparent);"></div>
+          <p style="font-family:var(--mn);font-size:0.6rem;color:#00f0ff;letter-spacing:4px;margin-bottom:1.2rem;text-align:center;text-shadow:0 0 8px rgba(0,240,255,0.4);">[ REGISTRATION CHECKLIST ]</p>
+          <div style="display:flex;flex-direction:column;gap:0.9rem;">
+            <!-- Step 1 -->
+            <label style="display:flex;align-items:center;gap:0.85rem;cursor:pointer;padding:0.7rem 1rem;background:rgba(0,240,255,0.04);border:1px solid rgba(0,240,255,0.15);border-radius:10px;transition:all 0.3s;" onmouseenter="this.style.borderColor='rgba(0,240,255,0.45)';this.style.boxShadow='0 0 16px rgba(0,240,255,0.1)'" onmouseleave="this.style.borderColor='rgba(0,240,255,0.15)';this.style.boxShadow='none'">
+              <input type="checkbox" style="appearance:none;-webkit-appearance:none;width:22px;height:22px;border:2px solid rgba(0,240,255,0.5);border-radius:5px;background:rgba(0,0,20,0.6);cursor:pointer;position:relative;flex-shrink:0;transition:all 0.3s;" onclick="this.style.background=this.checked?'rgba(0,240,255,0.25)':'rgba(0,0,20,0.6)';this.style.boxShadow=this.checked?'0 0 12px rgba(0,240,255,0.5),inset 0 0 8px rgba(0,240,255,0.3)':'none'" />
+              <div>
+                <span style="font-family:var(--hd);font-size:0.8rem;color:#00f0ff;letter-spacing:1.5px;">STEP 1</span>
+                <p style="font-family:var(--mn);font-size:0.78rem;color:#c8c8e0;margin-top:0.2rem;line-height:1.5;">Register on Devnovate</p>
+              </div>
+            </label>
+            <!-- Step 2 -->
+            <label style="display:flex;align-items:center;gap:0.85rem;cursor:pointer;padding:0.7rem 1rem;background:rgba(255,45,149,0.04);border:1px solid rgba(255,45,149,0.15);border-radius:10px;transition:all 0.3s;" onmouseenter="this.style.borderColor='rgba(255,45,149,0.45)';this.style.boxShadow='0 0 16px rgba(255,45,149,0.1)'" onmouseleave="this.style.borderColor='rgba(255,45,149,0.15)';this.style.boxShadow='none'">
+              <input type="checkbox" style="appearance:none;-webkit-appearance:none;width:22px;height:22px;border:2px solid rgba(255,45,149,0.5);border-radius:5px;background:rgba(0,0,20,0.6);cursor:pointer;position:relative;flex-shrink:0;transition:all 0.3s;" onclick="this.style.background=this.checked?'rgba(255,45,149,0.25)':'rgba(0,0,20,0.6)';this.style.boxShadow=this.checked?'0 0 12px rgba(255,45,149,0.5),inset 0 0 8px rgba(255,45,149,0.3)':'none'" />
+              <div>
+                <span style="font-family:var(--hd);font-size:0.8rem;color:#ff2d95;letter-spacing:1.5px;">STEP 2</span>
+                <p style="font-family:var(--mn);font-size:0.78rem;color:#c8c8e0;margin-top:0.2rem;line-height:1.5;">Finalize and submit team in Devnovate</p>
+              </div>
+            </label>
+            <!-- Step 3 -->
+            <label style="display:flex;align-items:center;gap:0.85rem;cursor:pointer;padding:0.7rem 1rem;background:rgba(168,85,247,0.04);border:1px solid rgba(168,85,247,0.15);border-radius:10px;transition:all 0.3s;" onmouseenter="this.style.borderColor='rgba(168,85,247,0.45)';this.style.boxShadow='0 0 16px rgba(168,85,247,0.1)'" onmouseleave="this.style.borderColor='rgba(168,85,247,0.15)';this.style.boxShadow='none'">
+              <input type="checkbox" style="appearance:none;-webkit-appearance:none;width:22px;height:22px;border:2px solid rgba(168,85,247,0.5);border-radius:5px;background:rgba(0,0,20,0.6);cursor:pointer;position:relative;flex-shrink:0;transition:all 0.3s;" onclick="this.style.background=this.checked?'rgba(168,85,247,0.25)':'rgba(0,0,20,0.6)';this.style.boxShadow=this.checked?'0 0 12px rgba(168,85,247,0.5),inset 0 0 8px rgba(168,85,247,0.3)':'none'" />
+              <div>
+                <span style="font-family:var(--hd);font-size:0.8rem;color:#a855f7;letter-spacing:1.5px;">STEP 3</span>
+                <p style="font-family:var(--mn);font-size:0.78rem;color:#c8c8e0;margin-top:0.2rem;line-height:1.5;">Submit idea submission form</p>
+              </div>
+            </label>
+          </div>
+
+          <!-- ACTION BUTTONS -->
+          <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:1.8rem;">
+            <a href="https://devnovate.co/event/vibeathon-2026" target="_blank" rel="noopener noreferrer" id="checklist-devnovate-btn" style="display:inline-flex;align-items:center;gap:0.6rem;padding:0.75rem 2rem;background:linear-gradient(135deg,rgba(0,240,255,0.15),rgba(0,240,255,0.05));border:1px solid rgba(0,240,255,0.5);border-radius:10px;color:#00f0ff;font-family:var(--hd);font-size:0.85rem;letter-spacing:2px;text-decoration:none;transition:all 0.3s;box-shadow:0 0 20px rgba(0,240,255,0.1);position:relative;overflow:hidden;" onmouseenter="this.style.boxShadow='0 0 30px rgba(0,240,255,0.3),inset 0 0 15px rgba(0,240,255,0.08)';this.style.transform='translateY(-2px)'" onmouseleave="this.style.boxShadow='0 0 20px rgba(0,240,255,0.1)';this.style.transform='translateY(0)'">
+              🚀 DEVNOVATE
+            </a>
+            <a href="https://forms.gle/FiUJG8a34QpsbYyQ8" target="_blank" rel="noopener noreferrer" id="checklist-submission-btn" style="display:inline-flex;align-items:center;gap:0.6rem;padding:0.75rem 2rem;background:linear-gradient(135deg,rgba(255,45,149,0.15),rgba(168,85,247,0.1));border:1px solid rgba(255,45,149,0.5);border-radius:10px;color:#ff2d95;font-family:var(--hd);font-size:0.85rem;letter-spacing:2px;text-decoration:none;transition:all 0.3s;box-shadow:0 0 20px rgba(255,45,149,0.1);position:relative;overflow:hidden;" onmouseenter="this.style.boxShadow='0 0 30px rgba(255,45,149,0.3),inset 0 0 15px rgba(255,45,149,0.08)';this.style.transform='translateY(-2px)'" onmouseleave="this.style.boxShadow='0 0 20px rgba(255,45,149,0.1)';this.style.transform='translateY(0)'">
+              📝 SUBMISSION FORM
+            </a>
+          </div>
+          <div style="position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#ff2d95,transparent);"></div>
+        </div>
+
       </div>
     </section>
 
