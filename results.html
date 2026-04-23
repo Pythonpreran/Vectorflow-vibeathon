@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>VIBEATHON 2026 – Results</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon.png">
+  <meta name="description" content="Vibeathon 2026 Shortlisted Teams — Track 1 & Track 2 Results"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--hd:'Orbitron',sans-serif;--mn:'Share Tech Mono',monospace;--bd:'Rajdhani',sans-serif;--b:#00f0ff;--p:#ff2d95;--v:#b026ff;--dim:#555580;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:#06061a;color:#e0e0ff;font-family:var(--bd);overflow-x:hidden;min-height:100vh;}
+
+    /* ── WARP TUNNEL OVERLAY ── */
+    #warp-overlay{position:fixed;inset:0;z-index:99999;background:#06061a;display:flex;align-items:center;justify-content:center;transition:opacity 0.5s;}
+    #warp-overlay.done{opacity:0;pointer-events:none;}
+    #warp-canvas{position:absolute;inset:0;width:100%;height:100%;}
+    .warp-text{position:relative;z-index:2;font-family:var(--hd);font-size:clamp(1.2rem,4vw,2.5rem);color:#fff;text-shadow:0 0 30px var(--b),0 0 60px var(--p);letter-spacing:6px;animation:warpPulse 0.4s ease-in-out infinite alternate;}
+    @keyframes warpPulse{0%{opacity:1;transform:scale(1);}100%{opacity:.7;transform:scale(1.05);}}
+
+    /* ── MAIN ── */
+    .results-page{opacity:0;transition:opacity 0.8s 0.3s;}
+    .results-page.visible{opacity:1;}
+
+    .results-header{text-align:center;padding:3rem 1.5rem 2rem;position:relative;}
+    .results-header h1{font-family:var(--hd);font-size:clamp(1.8rem,5vw,3.5rem);letter-spacing:4px;background:linear-gradient(135deg,var(--b),var(--p),var(--v));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-shadow:none;margin-bottom:0.5rem;}
+    .results-header .sub{font-family:var(--mn);font-size:0.85rem;color:var(--dim);letter-spacing:3px;}
+    .results-badge{display:inline-block;padding:0.4rem 1.2rem;border:1px solid rgba(0,240,255,0.4);border-radius:20px;font-family:var(--mn);font-size:0.65rem;color:var(--b);letter-spacing:3px;margin-bottom:1rem;background:rgba(0,240,255,0.06);animation:badgePulse 2s ease-in-out infinite;}
+    @keyframes badgePulse{0%,100%{box-shadow:0 0 10px rgba(0,240,255,0.2);}50%{box-shadow:0 0 25px rgba(0,240,255,0.4);}}
+
+    .back-btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 1.5rem;background:rgba(0,240,255,0.08);border:1px solid rgba(0,240,255,0.3);border-radius:8px;color:var(--b);font-family:var(--hd);font-size:0.7rem;letter-spacing:2px;text-decoration:none;transition:all 0.3s;margin-top:1rem;}
+    .back-btn:hover{background:rgba(0,240,255,0.15);box-shadow:0 0 20px rgba(0,240,255,0.2);transform:translateY(-2px);}
+
+    /* ── TRACK SECTIONS ── */
+    .track-section{max-width:1000px;margin:0 auto 3rem;padding:0 1.5rem;}
+    .track-title{font-family:var(--hd);font-size:clamp(1rem,3vw,1.6rem);letter-spacing:3px;text-align:center;margin-bottom:1.5rem;padding:1rem;border-radius:12px;position:relative;overflow:hidden;}
+    .track-title .num{font-size:0.7em;opacity:0.5;margin-right:0.5rem;}
+    .track-title.t1{color:var(--b);border:1px solid rgba(0,240,255,0.3);background:linear-gradient(135deg,rgba(0,240,255,0.06),rgba(0,0,0,0.4));}
+    .track-title.t2{color:var(--p);border:1px solid rgba(255,45,149,0.3);background:linear-gradient(135deg,rgba(255,45,149,0.06),rgba(0,0,0,0.4));}
+    .track-title::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+    .track-title.t1::before{background:linear-gradient(90deg,transparent,var(--b),transparent);}
+    .track-title.t2::before{background:linear-gradient(90deg,transparent,var(--p),transparent);}
+    .team-count{font-family:var(--mn);font-size:0.65rem;letter-spacing:2px;opacity:0.6;display:block;margin-top:0.3rem;}
+
+    /* ── TABLE ── */
+    .results-table-wrap{overflow-x:auto;border-radius:14px;border:1px solid rgba(255,255,255,0.06);background:rgba(10,10,30,0.6);backdrop-filter:blur(10px);}
+    .results-table{width:100%;border-collapse:collapse;font-family:var(--mn);font-size:0.78rem;}
+    .results-table thead th{padding:0.9rem 1rem;text-align:left;letter-spacing:2px;font-size:0.6rem;text-transform:uppercase;position:sticky;top:0;z-index:2;}
+    .t1-table thead th{background:rgba(0,240,255,0.1);color:var(--b);border-bottom:2px solid rgba(0,240,255,0.3);}
+    .t2-table thead th{background:rgba(255,45,149,0.1);color:var(--p);border-bottom:2px solid rgba(255,45,149,0.3);}
+    .results-table tbody tr{transition:all 0.3s;border-bottom:1px solid rgba(255,255,255,0.03);}
+    .t1-table tbody tr:hover{background:rgba(0,240,255,0.04);}
+    .t2-table tbody tr:hover{background:rgba(255,45,149,0.04);}
+    .results-table td{padding:0.75rem 1rem;color:#c8c8e0;vertical-align:middle;}
+    .results-table td:first-child{font-family:var(--hd);font-weight:700;width:40px;text-align:center;opacity:0.4;font-size:0.7rem;}
+    .results-table .team-name{color:#fff;font-weight:600;font-family:var(--bd);font-size:0.9rem;letter-spacing:0.5px;}
+    .results-table .leader{color:#c0c0d8;}
+    .results-table .college{color:#8888aa;font-size:0.72rem;}
+
+    /* row entrance animation */
+    .results-table tbody tr{opacity:0;transform:translateX(-20px);animation:rowIn 0.4s forwards;}
+    @keyframes rowIn{to{opacity:1;transform:translateX(0);}}
+
+    /* ── CONGRATS BANNER ── */
+    .congrats{text-align:center;padding:2rem;margin:2rem auto;max-width:700px;}
+    .congrats p{font-family:var(--mn);font-size:0.8rem;color:var(--dim);line-height:1.8;letter-spacing:1px;}
+    .congrats .emoji{font-size:2rem;margin-bottom:0.5rem;}
+
+    /* ── FOOTER ── */
+    .res-footer{text-align:center;padding:2rem;border-top:1px solid rgba(255,255,255,0.04);}
+    .res-footer p{font-family:var(--mn);font-size:0.6rem;color:var(--dim);letter-spacing:3px;}
+
+    /* ── AMBIENT PARTICLES ── */
+    #res-particles{position:fixed;inset:0;z-index:0;pointer-events:none;}
+    .results-page,.results-header,.track-section,.congrats,.res-footer{position:relative;z-index:1;}
+
+    @media(max-width:600px){
+      .results-table{font-size:0.68rem;}
+      .results-table thead th{padding:0.7rem 0.6rem;font-size:0.52rem;}
+      .results-table td{padding:0.6rem 0.6rem;}
+    }
+  </style>
+</head>
+<body>
+  <!-- WARP TUNNEL OVERLAY -->
+  <div id="warp-overlay">
+    <canvas id="warp-canvas"></canvas>
+    <div class="warp-text">ENTERING RESULTS</div>
+  </div>
+
+  <!-- AMBIENT PARTICLES -->
+  <canvas id="res-particles"></canvas>
+
+  <!-- RESULTS PAGE -->
+  <div class="results-page" id="results-page">
+    <div class="results-header">
+      <div class="results-badge">[ SYSTEM TRANSMISSION // SHORTLIST ]</div>
+      <h1>RESULTS ARE OUT</h1>
+      <p class="sub">VIBEATHON 2026 — SHORTLISTED TEAMS</p>
+      <a href="index.html" class="back-btn">⟨ BACK TO HOME</a>
+    </div>
+
+    <!-- TRACK 1 -->
+    <div class="track-section" id="track1-section">
+      <div class="track-title t1">
+        <span class="num">01 //</span> TRACK 1 — SHORTLISTED TEAMS
+        <span class="team-count">25 TEAMS SELECTED</span>
+      </div>
+      <div class="results-table-wrap">
+        <table class="results-table t1-table" id="t1-table">
+          <thead><tr><th>#</th><th>Team Name</th><th>Leader</th><th>College</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TRACK 2 -->
+    <div class="track-section" id="track2-section">
+      <div class="track-title t2">
+        <span class="num">02 //</span> TRACK 2 — SHORTLISTED TEAMS
+        <span class="team-count">25 TEAMS SELECTED</span>
+      </div>
+      <div class="results-table-wrap">
+        <table class="results-table t2-table" id="t2-table">
+          <thead><tr><th>#</th><th>Team Name</th><th>Leader</th><th>College</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CONGRATS -->
+    <div class="congrats">
+      <div class="emoji">🎉🏆🎉</div>
+      <p>CONGRATULATIONS TO ALL SHORTLISTED TEAMS!<br>SEE YOU AT VIBEATHON ON 27TH APRIL 2026.</p>
+    </div>
+
+    <div class="res-footer">
+      <p>© 2026 VIBEATHON // VECTORFLOW CLUB OF VVCE MYSURU</p>
+    </div>
+  </div>
+
+<script>
+// ── TRACK DATA ──
+const track1=[
+["Requiem","Chethas Dileep","Yenepoya University Bengaluru"],
+["ChangeMakers","Shashank S","Maharaja Institute of Technology Mysore"],
+["Cognivex","Prajwal M R","Dr Ambedkar Institute of Technology"],
+["CodeConquerors","Kruthika H S","GSSSIETW"],
+["Bug Busters","Pradhyumna K N","ATME College of Engineering"],
+["Mavericks","Dimpana V","GSSSIETW"],
+["SOSquad","Monish N Kumar","Vidyavardhaka College of Engineering"],
+["Vayodha","Vivek Murthy S R","Sambhram Institute of Technology"],
+["ByteForce","Bhuvana L","GSSSIETW"],
+["Creative Codex","Chinmayi H M","The National Institute of Engineering"],
+["LogicHack","Sahana Ravi Kangal","Alva's Institute of Engineering and Technology"],
+["MasterVibe","NISARGA NS","GSSS SSFGC, Mysuru"],
+["Code Commanders","Meghana R","MITM (Maharaja Institution of Technology, Mysore)"],
+["MacXCode","Ahmed Siddiqua","Mangalore Institute of Technology and Engineering"],
+["Tech Brutes","Udayashankar Aradhya","RNS Institute of Technology"],
+["BRAINWARE","Lochan B R","KVG College of Engineering Sullia"],
+["SenorAIC","Prajwal","Mysore University School of Engineering"],
+["InnoVibe","Samarth S","Vidyavardhaka College of Engineering"],
+["INFINITE ARC","Nandan M Chinchali","Dayananda Sagar Academy of Technology and Management"],
+["TECHNO SQUAD","Dhanush R S","Mysore College of Engineering and Management (MYCEM)"],
+["Gen-Go","Chethana M K","GSSSIETW"],
+["Team Crystal","Bharath A","Vidyavardhaka College of Engineering"],
+["Nextgen Minds","Ranjith H S","Visvesvaraya Technological University Regional Center Mysuru"],
+["IT WORKS ON MY MACHINE","NANDAN R","Vidyavardhaka College of Engineering"],
+["Hexanova","Maseera","Vidyavardhaka College of Engineering"]
+];
+
+const track2=[
+["RTX5090","Rajput Aditya Singh","RNS Institute of Technology"],
+["Yodhas","Pranav Kumar","Vidyavardhaka College of Engineering"],
+["Quantix","Poorvika M","Vidyavardhaka College of Engineering"],
+["APEX-AI-X","Kushal P","Vidyavardhaka College of Engineering"],
+["Avexa","Nehagowda K S","GSSS Institute of Engineering and Technology for Women"],
+["TechFlies","Md Saif Ali","Ghousia College of Engineering"],
+["SlayTrinity.exe","Amulya R","Presidency University"],
+["ByteForce","KP SUMANTH","Sai Vidya Institute of Technology"],
+["Aiera","Katta Harsha Vardhan","Sai Vidya Institute of Technology"],
+["404 BRAIN NOT FOUND","Aashish A Shirahatti","Vidyavardhaka College of Engineering"],
+["Tech-nexus","Srinivas P","Vidyavardhaka College of Engineering"],
+["NeuralNomads","Sanjana Ambarish","Vidyavardhaka College of Engineering"],
+["Aistronauts","Abhishek Kr Prajapati","Acharya Institute of Technology"],
+["Loop Legends","Allu Varshitha Reddy","RNS Institute of Technology"],
+["FortuneX","Kishan BC","Presidency University Bengaluru"],
+["Code Geass","Mahathi S","Vidyavardhaka College of Engineering"],
+["WOLF_PACK","NANDA GOPAL D","Maharaja Institute of Technology of Mysore"],
+["Ctrl+Think","Abhishta S","GSSSIETW"],
+["Not Found","Prajna M R","Vidyavardhaka College of Engineering"],
+["Ctrl Alt Defeat","PUNEETH J","ATME College of Engineering"],
+["Code-devil","Kruthin H","Gopalan College of Engineering and Management"],
+["RootX","Pragathi P B","GSSS-IETW"],
+["Deep Thinkers","Bharathi B R","ATME College of Engineering Mysore"],
+["Team OneSoul","Rachana N","RNSIT"],
+["Voyagers","Srujan H R","Yuvarajas College"]
+];
+
+function populateTable(id, data){
+  const tb=document.querySelector('#'+id+' tbody');
+  data.forEach((r,i)=>{
+    const tr=document.createElement('tr');
+    tr.style.animationDelay=(i*0.06)+'s';
+    tr.innerHTML=`<td>${i+1}</td><td class="team-name">${r[0]}</td><td class="leader">${r[1]}</td><td class="college">${r[2]}</td>`;
+    tb.appendChild(tr);
+  });
+}
+
+// ── WARP TUNNEL ANIMATION ──
+const wc=document.getElementById('warp-canvas');
+const wx=wc.getContext('2d');
+let wW,wH;
+function resizeWarp(){wW=wc.width=innerWidth;wH=wc.height=innerHeight;}
+resizeWarp();
+addEventListener('resize',resizeWarp);
+
+const stars=[];
+for(let i=0;i<400;i++){
+  stars.push({x:(Math.random()-0.5)*wW*2,y:(Math.random()-0.5)*wH*2,z:Math.random()*1500+500,c:['#00f0ff','#ff2d95','#b026ff','#fff'][Math.floor(Math.random()*4)]});
+}
+
+let warpTime=0;
+const warpDuration=2200;
+const warpStart=performance.now();
+
+function drawWarp(now){
+  warpTime=now-warpStart;
+  const progress=Math.min(warpTime/warpDuration,1);
+  const speed=2+progress*60;
+
+  wx.fillStyle='rgba(6,6,26,0.25)';
+  wx.fillRect(0,0,wW,wH);
+
+  const cx=wW/2, cy=wH/2;
+
+  // Draw rings
+  for(let r=0;r<6;r++){
+    const rz=((warpTime*0.8+r*250)%1500);
+    const scale=1500/Math.max(rz,1);
+    const rad=200*scale;
+    const alpha=Math.max(0,1-rz/1500)*0.3;
+    wx.strokeStyle=r%2===0?`rgba(0,240,255,${alpha})`:`rgba(255,45,149,${alpha})`;
+    wx.lineWidth=2;
+    wx.beginPath();
+    wx.arc(cx,cy,rad,0,Math.PI*2);
+    wx.stroke();
+  }
+
+  // Draw stars
+  stars.forEach(s=>{
+    s.z-=speed;
+    if(s.z<=0){s.z=1500;s.x=(Math.random()-0.5)*wW*2;s.y=(Math.random()-0.5)*wH*2;}
+    const sx=cx+s.x/(s.z*0.001);
+    const sy=cy+s.y/(s.z*0.001);
+    const sz=Math.max(0.5,(1-s.z/1500)*4);
+    const sa=Math.max(0,(1-s.z/1500));
+
+    // Trail
+    const prevZ=s.z+speed;
+    const px=cx+s.x/(prevZ*0.001);
+    const py=cy+s.y/(prevZ*0.001);
+    wx.strokeStyle=s.c;
+    wx.globalAlpha=sa*0.6;
+    wx.lineWidth=sz*0.5;
+    wx.beginPath();
+    wx.moveTo(px,py);
+    wx.lineTo(sx,sy);
+    wx.stroke();
+
+    // Star dot
+    wx.globalAlpha=sa;
+    wx.fillStyle=s.c;
+    wx.beginPath();
+    wx.arc(sx,sy,sz,0,Math.PI*2);
+    wx.fill();
+  });
+  wx.globalAlpha=1;
+
+  if(progress<1){
+    requestAnimationFrame(drawWarp);
+  } else {
+    // Warp done — show results
+    document.getElementById('warp-overlay').classList.add('done');
+    document.getElementById('results-page').classList.add('visible');
+    populateTable('t1-table',track1);
+    populateTable('t2-table',track2);
+    setTimeout(()=>document.getElementById('warp-overlay').style.display='none',600);
+  }
+}
+requestAnimationFrame(drawWarp);
+
+// ── AMBIENT PARTICLES ──
+const pc=document.getElementById('res-particles');
+const px=pc.getContext('2d');
+function resizeP(){pc.width=innerWidth;pc.height=innerHeight;}
+resizeP();addEventListener('resize',resizeP);
+const pts=[];
+for(let i=0;i<60;i++){
+  pts.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*2+0.5,
+    vx:(Math.random()-0.5)*0.3,vy:(Math.random()-0.5)*0.3,
+    c:['rgba(0,240,255,0.3)','rgba(255,45,149,0.3)','rgba(176,38,255,0.2)'][Math.floor(Math.random()*3)]});
+}
+(function drawP(){
+  px.clearRect(0,0,pc.width,pc.height);
+  pts.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0)p.x=pc.width;if(p.x>pc.width)p.x=0;
+    if(p.y<0)p.y=pc.height;if(p.y>pc.height)p.y=0;
+    px.fillStyle=p.c;px.beginPath();px.arc(p.x,p.y,p.r,0,Math.PI*2);px.fill();
+  });
+  requestAnimationFrame(drawP);
+})();
+</script>
+</body>
+</html>
