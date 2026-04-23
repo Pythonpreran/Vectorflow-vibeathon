@@ -33,6 +33,8 @@ a{color:var(--b);text-decoration:none;cursor:none}button,input,select{cursor:non
 @keyframes orb-float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-10px) scale(1.1)}}
 @keyframes ach-in{0%{opacity:0;transform:translateX(-50%) translateY(30px) scale(.9)}100%{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}}
 @keyframes barPulse{0%,100%{opacity:.8;box-shadow:0 0 8px currentColor}50%{opacity:1;box-shadow:0 0 18px currentColor}}
+@keyframes resultBtnPulse{0%,100%{box-shadow:0 0 20px rgba(255,45,149,0.3),0 0 40px rgba(255,45,149,0.1)}50%{box-shadow:0 0 40px rgba(255,45,149,0.5),0 0 80px rgba(255,45,149,0.2),0 0 120px rgba(176,38,255,0.1)}}
+@keyframes scanMove{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
 
 .float-slow{animation:float-y 4s ease-in-out infinite}.float-slow.d1{animation-delay:.7s}.float-slow.d2{animation-delay:1.4s}
 .breath-glow{animation:breath 3s ease-in-out infinite}
